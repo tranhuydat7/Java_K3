@@ -1,0 +1,132 @@
+Câu 1:
+INSERT INTO `cities` (`id`,`name`,`created_at`,`update_at`) VALUES (1,'Hải Phòng',NULL,NULL);
+
+INSERT INTO `districts` (`id`,`name`,`city_id`,`created_at`,`updated_at`) VALUES (1,'Lê Chân',1,NULL,NULL);
+INSERT INTO `districts` (`id`,`name`,`city_id`,`created_at`,`updated_at`) VALUES (2,'Ngô Quyền',1,NULL,NULL);
+
+INSERT INTO `stores` (`id`,`name`,`address`,`district_id`,`image`,`description`,`created_at`,`update_at`) VALUES (1,'Lotteria Lê Chân',NULL,1,NULL,NULL,NULL,NULL);
+INSERT INTO `stores` (`id`,`name`,`address`,`district_id`,`image`,`description`,`created_at`,`update_at`) VALUES (2,'Lotteria Ngô Quyền',NULL,2,NULL,NULL,NULL,NULL);
+
+INSERT INTO `shipping_units` (`id`,`name`,`address`,`phone`,`created_at`,`updated_at`) VALUES (1,'Aha move',NULL,NULL,NULL,NULL);
+INSERT INTO `shipping_units` (`id`,`name`,`address`,`phone`,`created_at`,`updated_at`) VALUES (2,'Viettel Post',NULL,NULL,NULL,NULL);
+INSERT INTO `categories` (`id`,`name`,`created_at`,`updated_at`) VALUES (1,'Spaghetti',NULL,NULL);
+Câu 2:
+INSERT INTO `roles` (`id`,`name`,`created_at`,`updated_at`) VALUES (1,'manager',NULL,NULL);
+INSERT INTO `users` (`id`,`code`,`name`,`password`,`email`,`phone`,`avatar`,`role_id`,`store_id`,`created_at`,`updated_at`) VALUES (1,12345,'manager',NULL,NULL,NULL,NULL,1,1,NULL,NULL);
+
+Câu 3:
+INSERT INTO `products` (`id`,`name`,`description`,`category_id`,`image`,`price`,`created_at`,`updated_at`) VALUES (1,'Mỳ ý thịt bò',NULL,1,NULL,NULL,NULL,NULL);
+INSERT INTO `products` (`id`,`name`,`description`,`category_id`,`image`,`price`,`created_at`,`updated_at`) VALUES (2,'Mì ý sốt kem',NULL,1,NULL,NULL,NULL,NULL);
+INSERT INTO `products` (`id`,`name`,`description`,`category_id`,`image`,`price`,`created_at`,`updated_at`) VALUES (3,'Mì ý cua',NULL,1,NULL,NULL,NULL,NULL);
+Câu 4:
+INSERT INTO `store_products` (`id`,`store_id`,`product_id`,`status`,`created_at`,`updated_at`) VALUES (1,2,1,NULL,NULL,NULL);
+INSERT INTO `store_products` (`id`,`store_id`,`product_id`,`status`,`created_at`,`updated_at`) VALUES (2,2,2,NULL,NULL,NULL);
+INSERT INTO `store_products` (`id`,`store_id`,`product_id`,`status`,`created_at`,`updated_at`) VALUES (3,2,3,NULL,NULL,NULL);
+Câu 5:
+INSERT INTO `dbchuoibanhang`.`stores` (`name`, `address`, `district_id`) VALUES ('Lotteria Bà Triệu', 'Bà Triệu', '3');
+INSERT INTO `dbchuoibanhang`.`stores` (`name`, `address`, `district_id`) VALUES ('Lotteria Royal City', 'Royal City', '4');
+
+
+
+
+Câu 6:
+INSERT INTO `dbchuoibanhang`.`orders` (`shipping_unit_id`, `price`, `payment_method`, `status`) VALUES ('1', '70620', '1', '2');
+INSERT INTO `dbchuoibanhang`.`orders` (`shipping_unit_id`, `price`, `payment_method`, `status`) VALUES ('2', '95110', '2', '2');
+
+Câu 7
+INSERT INTO `dbchuoibanhang`.`products` (`name`, `category_id`) VALUES ('Burger bulgogi', '2');
+INSERT INTO `dbchuoibanhang`.`products` (`name`, `category_id`) VALUES ('Burger tôm', '2');
+INSERT INTO `dbchuoibanhang`.`products` (`name`, `category_id`) VALUES ('Burger bò', '2');
+INSERT INTO `dbchuoibanhang`.`products` (`name`, `category_id`) VALUES ('Gà rán', '3');
+INSERT INTO `dbchuoibanhang`.`products` (`name`, `category_id`) VALUES ('Gà rán cay', '3');
+INSERT INTO `dbchuoibanhang`.`store_products` (`product_id`, `status`) VALUES ('1', '1');
+INSERT INTO `dbchuoibanhang`.`store_products` (`product_id`, `status`) VALUES ('2', '0');
+INSERT INTO `dbchuoibanhang`.`store_products` (`product_id`, `status`) VALUES ('3', '1');
+INSERT INTO `dbchuoibanhang`.`store_products` (`product_id`, `status`) VALUES ('7', '1');
+INSERT INTO `dbchuoibanhang`.`store_products` (`product_id`, `status`) VALUES ('8', '1');
+
+Câu 8:
+INSERT INTO `dbchuoibanhang`.`customers` (`name`, `email`, `phone`, `address`, `birthday`) VALUES ('Josiah Cline', 'mauris@yahoo.com', '8661930889', '8466 Aliquet Ave', '2020-12-29');
+
+Câu 9:
+INSERT INTO `dbchuoibanhang`.`customers` (`phone`, `address`, `birthday`) VALUES ('0338443113', 'Pham Hung-Nam Tu Liem -Ha Noi', '2000-03-01');
+
+Câu 10:
+INSERT INTO `dbchuoibanhang`.`stores` (`name`) VALUES ('Lotteria Cầu Giấy');
+INSERT INTO `dbchuoibanhang`.`promotions` (`name`) VALUES ('Thứ hai nửa giá');
+INSERT INTO `dbchuoibanhang`.`shipping_units` (`name`) VALUES ('Giao Hàng nhanh');
+INSERT INTO `dbchuoibanhang`.`orders` (`customer_id`, `payment_method`) VALUES ('1', '1');
+INSERT INTO `dbchuoibanhang`.`order_details` (`store_product_id`, `quantity`) VALUES ('5', '4');
+INSERT INTO `dbchuoibanhang`.`order_details` (`store_product_id`, `quantity`) VALUES ('6', '4');
+INSERT INTO `dbchuoibanhang`.`order_details` (`store_product_id`, `quantity`) VALUES ('7', '2');
+Câu 11:
+update orders set orders.status=4 where orders.store_id=4;
+Câu 12:
+INSERT INTO `dbchuoibanhang`.`orders` (`customer_id`, `price`, `status`) VALUES ('2', '744100', '1');
+INSERT INTO `dbchuoibanhang`.`orders` (`customer_id`, `price`, `status`) VALUES ('2', '731720', '3');
+
+Câu 13:
+INSERT INTO `dbchuoibanhang`.`promotions` (`id`, `name`, `discount`) VALUES ('1', 'Đầu tuần vui vẻ', '20');
+UPDATE `dbchuoibanhang`.`promotions` SET `id` = '2', `discount` = '30' WHERE (`id` = '1');
+
+
+
+Câu 14:
+INSERT INTO `dbchuoibanhang`.`order_details` (`store_product_id`, `quantity`) VALUES ('8', '5');
+
+Câu 15:
+INSERT INTO `dbchuoibanhang`.`customers` (`name`) VALUES ('Clinton Macias');
+INSERT INTO `dbchuoibanhang`.`customers` (`name`) VALUES ('Tyler Dawson');
+INSERT INTO `dbchuoibanhang`.`customers` (`name`) VALUES ('Hakeem Moore');
+INSERT INTO `dbchuoibanhang`.`order_details` (`quantity`) VALUES ('5');
+INSERT INTO `dbchuoibanhang`.`order_details` (`quantity`) VALUES ('4');
+INSERT INTO `dbchuoibanhang`.`order_details` (`quantity`) VALUES ('4');
+
+
+
+
+Câu 16:
+INSERT INTO `dbchuoibanhang`.`orders` (`price`, `payment_method`) VALUES ('96313', '1');
+
+Câu 17:
+INSERT INTO `dbchuoibanhang`.`promotions` (`name`, `apply_day`) VALUES ('Giảm 50% thứ năm', '5 ');
+INSERT INTO `dbchuoibanhang`.`promotions` (`name`, `apply_day`) VALUES ('Cuối tuần món ngon giá chât', '6');
+UPDATE `dbchuoibanhang`.`promotions` SET `apply_day` = '0' WHERE (`id` = '1');
+UPDATE `dbchuoibanhang`.`promotions` SET `apply_day` = '12' WHERE (`id` = '3');select p.name, sum(p.id)
+from orders o join promotions p on p.id=o.promotion_id;
+
+Câu 18:
+select s.name,sum(od.quantity)*sum(o.price) 
+from order_details od join orders o on o.id=od.order_id
+join stores s on s.id=o.store_id
+join store_products sp on sp.id=od.store_product_id
+join products p on sp.product_id=p.id
+where month(od.created_at)=1
+group by s.id,p.id
+having sum(od.quantity)*sum(o.price)>100000
+limit 3;
+
+
+Câu 19:
+INSERT INTO `dbchuoibanhang`.`order_details` (`order_id`, `craeted_at`) VALUES ('4', '2021-01-03');
+INSERT INTO `dbchuoibanhang`.`order_details` (`order_id`, `craeted_at`) VALUES ('5', '2021-02-09');
+select o.craeted_at,o.payment_method,sum(o.price*od.quantity)
+from orders o join order_details od on od.order_id=o.id
+join store_products sp on sp.id=od.store_product_id
+join stores s on s.id=sp.store_id
+where s.name='Lotte Cau Giay' 
+group by o.created_at,o.payment_method;
+Câu 20:
+INSERT INTO `dbchuoibanhang`.`orders` (`shipping_unit_id`, `payment_method`) VALUES ('3', '2');
+INSERT INTO `dbchuoibanhang`.`orders` (`shipping_unit_id`, `payment_method`) VALUES ('3', '2');
+INSERT INTO `dbchuoibanhang`.`orders` (`shipping_unit_id`, `payment_method`) VALUES ('3', '2');
+INSERT INTO `dbchuoibanhang`.`orders` (`shipping_unit_id`, `payment_method`) VALUES ('3', '2');
+INSERT INTO `dbchuoibanhang`.`orders` (`shipping_unit_id`, `payment_method`) VALUES ('3', '2');
+select su.name,sum(o.status) as ca
+from orders o join shipping_units su on su.id=o.shipping_unit_id
+where o.status=2 or o.status=3 
+group by su.id
+order by ca desc
+limit 1;
+
+
