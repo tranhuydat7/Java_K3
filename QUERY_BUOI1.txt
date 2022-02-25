@@ -1,0 +1,134 @@
+-- Cau 1.
+CREATE TABLE cities
+(   city_id char(10) primary key not null,
+    city_name nvarchar(50)
+);
+create table districts(
+	dis_id char(10) primary key not null,
+    dis_name nvarchar(50),
+    city_id char(10),
+    foreign key(city_id) references cities(city_id)
+);
+create table stores (
+	st_it char(10) primary key not null,
+    st_name nvarchar(50),
+    address nvarchar(50),
+    dis_id char(10),
+    foreign key(dis_id) references districts(dis_id)
+);
+create table shipping_units(
+	ship_id char(10) primary key not null,
+    ship_name nvarchar(50),
+    address nvarchar(50),
+    phone varchar(11)
+);
+create table categories(
+	cate_id char(10) primary key not null,
+    cate_name nvarchar(50)
+    
+);
+insert into cities values
+('TP02', N'Hà Nội'),
+('TP01', N'Hải Phòng');
+insert into districts values
+('Q03',N'Cầu Giấy', 'TP02'),
+('Q01',N'Lê Chân', 'TP01'),
+('Q02',N'Ngô Quyền', 'TP01');
+insert into shipping_units values
+('SP03', N'Giao hàng nhanh', N'Hà Nội', '789'),
+('SP01', N'Aha move', N'Ba Vì', '123'),
+('SP02', N'Viettel post', N'Cà Mau', '456');
+
+insert into stores values
+('S03', N'Lotteria Cầu giấy', N'Tòa haha', 'Q03'),
+('S01', N'Lotteria Lê Chân', N'Tòa Handico', 'Q01'),
+('S02', N'Lotteria Ngô Quyền', N'Tòa Sông Đà', 'Q02');
+
+insert into shipping_units values
+('SP03', N'Giao hàng nhanh', N'Hà Nội', '789'),
+('SP01', N'Aha move', N'Ba Vì', '123'),
+('SP02', N'Viettel post', N'Cà Mau', '456');
+
+insert into categories values 
+('C01', N'spaghetti')
+
+-- Cau 2:
+insert into users values
+('ID01', 12345, 'Manager','12345','hello@gmail.com', '113','R01','S01');
+
+
+-- cau 3: 
+insert into categories values 
+('C03', N'nước'),
+('C02', N'gà'),
+('C04', N'Cơm');
+
+-- cau 4:
+insert into store_products values
+('STP04', 'S03', 'PR04', 1),
+('STP05', 'S03', 'PR05', 0),
+('STP06', 'S03', 'PR06', 1),
+('STP01', 'S02', 'PR01', 1),
+('STP02', 'S02', 'PR02', 1),
+-- Cau 5: Liệt kê danh sách cửa hàng ở Hà Nội
+select st_it, st_name, address, d.dis_name from stores as st join districts as d on st.dis_id = d.dis_id join cities as c on d.city_id = c.city_id where city_name = "Hà Nội";
+-- Cau 6: Liệt kê các đơn hàng mà KH có tên là Merritt Fernandez đã đặt	
+select order_id, price, pay_method, status, ship_name 
+from orders as o 
+join shipping_units as s on o.ship_id = s.ship_id 
+join customers as c on o.cus_id = c.cus_id
+where cus_name = 'Mario';
+-- Cau 7:Liệt kê các mặt hàng và danh mục từng mặt hàng ở cửa hàng "Lotteria Cầu Giấy" 						
+select p.pro_id, p.pro_name, cate_name, status 
+from products p 
+join store_products st on p.pro_id = st.pro_id 
+join categories cate on p.cate_id = cate.cate_id
+join stores s on st.st_it = s.st_it
+where s.st_name = N'Lotteria Ngô Quyền';
+-- cau 8. Liệt kê thông tin KH có tên "Josiah Cline" bao gồm: tên, email, điện thoại, địa chỉ, ngày sinh nhật							
+select cus_name, email, phone, address, birthday 
+from customers where cus_name = N'Mario';
+-- cau 9. Cập nhật lại thông tin KH có id = 7 với nội dung sau: Số điện thoại: 0338443113 Địa chỉ: Phạm Hùng, Nam Từ Liêm, Hà Nội Ngày sinh: 2000-03-01"	
+Update customers SET phone = '0338443113', address = N'Phạm Hùng, Nam Từ Liêm, Hà Nội', birthday = '2000-03-01' where cus_id = 'CUS02';	
+SET SQL_SAFE_UPDATES = 0;
+-- cau10: Tạo order
+insert into orders values
+('O08', 'S02', 'CUS01', 'KM01', 'SP02', 2200220, 1, 1, 1, '2022-1-1','2022-1-2'),
+('O07', 'S03', 'CUS02', 'KM01', 'SP02', 220003, 1, 1, 1, '2022-2-1','2022-1-2'),
+('O06', 'S02', 'CUS02', 'KM01', 'SP02', 22000, 1, 1, 1, '2022-4-12','2022-1-2'),
+('O05', 'S01', 'CUS04', 'KM01', 'SP02', 22000, 1, 1, 1, '2022-1-1','2022-1-2'),
+('O04', 'S03', 'CUS04', 'KM01', 'SP02', 22000, 1, 1, 1, '2022-3-1','2022-1-2'),
+('O03', 'S01', 'CUS02', 'KM01', 'SP02', 22000, 1, 1, 1, '2022-1-1','2022-1-2'),
+('O02', 'S03', 'CUS03', 'KM01', 'SP03', 11000, 1, 1, 1, '2022-1-3','2022-3-3'),
+('O01', 'S01', 'CUS01', 'KM01', 'SP02', 2200, 1, 1, 1, '2022-2-1','2022-1-2');
+-- cau 11. Hủy đơn hàng vừa tạo ở mục 7 bằng cách cập nhật lại status (1: chờ vận chuyển, 2: đang vận chuyển, 3: đã nhận hàng, 4: hủy đơn hàng)										
+delete from orders where status = 4;
+-- cau 12. Tra cứu thông tin tất cả đơn đặt hàng của KH có tên "Merritt Fernandez" trong tháng 3						
+select order_id, price, status, create_at from orders where create_at between '2022-3-1' and '2022-3-31';
+-- cau 13. Giả sử hôm nay là Thứ 2, hãy liệt kê ưu đãi được phép sử dụng vào ngày hôm nay theo thứ tự discount giảm dần								
+select promotion_id, name, discout from promotions where start_date = '2022-2-24' order by discout DESC;	
+-- cau 14. Tìm mặt hàng được đặt hàng nhiều thứ 2 ở cửa hàng "Lotteria Trần Duy Hưng"						
+select pro_name, max(quantity) 
+from products p
+join store_products st on p.pro_id = st.pro_id 
+join order_details o on st.st_pro_id = o.st_pro_id 
+where quantity != (select max(quantity) from order_details de join orders o on de.order_id = o.order_id join stores st on o.st_it = st.st_it where st_name = 'Lotteria Cầu Giấy');
+-- cau 15. Liệt kê 3 khách hàng đặt hàng nhiều nhất ở cửa hàng "Lotteria Cầu Giấy" theo thứ tự số lượng đơn đặt hàng giảm dần								
+select cus_name, count(order_id) orders 
+from customers c
+join orders o on c.cus_id = o.cus_id group by cus_name order by orders DESC LIMIT 3;
+-- cau 16. Liệt kê những đơn hàng của cửa hàng "Lotteria Cầu Giấy" đang ở trạng thái chưa thanh toán (1: chưa thanh toán, 2: thanh toán thành công, 3: thanh toán lỗl)										
+select order_id, price, pay_method, create_at from orders where pay_method = 1;
+-- cau 17. Liệt kê tất cả những mã giảm giá có trong hệ thống kèm theo số lượng mã đã áp dụng							
+select p.name, count(o.promotion_id) as total_oder
+from promotions p 
+join orders o on p.promotion_id = o.promotion_id;
+-- cau 18. Liệt kê 3 cửa hàng có doanh thu trong tháng 1 lớn hơn 100,000 (Không cần kiểm tra điều kiện của orders.status và orders.payment_status)"										
+select st_name, sum(price) as tong from stores s 
+join orders o on s.st_it = o.st_it
+where create_at between '2022-1-1' and '2022-1-30' group by st_name having sum(price)>100000;
+-- cau 19. Doanh số bán hàng của cửa hàng ""Lotteria Cầu Giấy"" theo từng ngày và từng phương thức thanh toán (Không cần kiểm tra điều kiện của orders.status và orders.payment_status)"										
+select create_at,pay_method, sum(price) from orders group by create_at;
+-- cau 20. Tìm đơn vị vận chuyển đã vận chuyển được ít đơn hàng nhất và số lượng đơn hàng đơn vị đó đã vận chuyển								
+select ship_name, sum(o.ship_id) from shipping_units s 
+join orders o on s.ship_id = o.ship_id where o.ship_id = (select min(ship_id) from orders);

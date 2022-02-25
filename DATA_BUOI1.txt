@@ -1,0 +1,168 @@
+create database fastfood;
+use fastfood;
+CREATE TABLE cities
+(   city_id char(10) primary key not null,
+    city_name nvarchar(50)
+);
+create table districts(
+	dis_id char(10) primary key not null,
+    dis_name nvarchar(50),
+    city_id char(10),
+    foreign key(city_id) references cities(city_id)
+);
+create table stores (
+	st_it char(10) primary key not null,
+    st_name nvarchar(50),
+    address nvarchar(50),
+    dis_id char(10),
+    foreign key(dis_id) references districts(dis_id)
+);
+create table shipping_units(
+	ship_id char(10) primary key not null,
+    ship_name nvarchar(50),
+    address nvarchar(50),
+    phone varchar(11)
+);
+create table categories(
+	cate_id char(10) primary key not null,
+    cate_name nvarchar(50)
+    
+);
+create table users(
+	user_id char(10) primary key not null,
+    code int,
+    username varchar(50),
+    password varchar(50),
+    email varchar(50),
+    phone varchar(11),
+    role_id char(10) references roles ,
+    st_it char(10) references stores
+);
+
+create table roles(
+	role_id char(10) primary key not null,
+    role_name nvarchar(50)
+);
+create table products (
+	pro_id char(10) primary key,
+    pro_name nvarchar(50),
+    description nvarchar(50),
+    cate_id char(10) references categories,
+    image varchar(50),
+    price double
+    
+);
+create table store_products(
+	st_pro_id char(10) primary key,
+    st_it char(10),
+    pro_id char(10) references products,
+    status int
+);
+create table promotions(
+	promotion_id char(10) primary key,
+    name nvarchar(50),
+    start_date datetime,
+    end_date datetime,
+    apply_day varchar(50),
+    discout int
+    
+);
+create table customers(
+	cus_id char(10),
+    cus_name nvarchar(50),
+    email varchar(50),
+    phone varchar(11),
+    address varchar(50),
+    birthday date
+    
+);
+
+create table orders(
+	order_id char(10) primary key,
+    st_it char(10),
+    cus_id char(10),
+    promotion_id char(10),
+    ship_id char(10) references shipping_units,
+    price double,
+    pay_method int,
+    status int,
+    payment_status int,
+	create_at timestamp,
+    update_at timestamp
+);
+
+create table order_details(
+	Detail_id char(10) primary key,
+    order_id char (10) references orders,
+    st_pro_id char(10) references store_products,
+    quantity int,
+    create_at timestamp,
+    update_at timestamp
+);
+-- Cau 2:
+insert into users values
+('ID01', 12345, 'Manager','12345','hello@gmail.com', '113','R01','S01');
+insert into roles values 
+('R01', N'Manager');
+insert into cities values
+('TP02', N'Hà Nội'),
+('TP01', N'Hải Phòng');
+insert into districts values
+('Q03',N'Cầu Giấy', 'TP02'),
+('Q01',N'Lê Chân', 'TP01'),
+('Q02',N'Ngô Quyền', 'TP01');
+
+insert into stores values
+('S03', N'Lotteria Cầu giấy', N'Tòa haha', 'Q03'),
+('S01', N'Lotteria Lê Chân', N'Tòa Handico', 'Q01'),
+('S02', N'Lotteria Ngô Quyền', N'Tòa Sông Đà', 'Q02');
+
+insert into shipping_units values
+('SP03', N'Giao hàng nhanh', N'Hà Nội', '789'),
+('SP01', N'Aha move', N'Ba Vì', '123'),
+('SP02', N'Viettel post', N'Cà Mau', '456');
+-- cau 3: 
+insert into categories values 
+('C03', N'nước'),
+('C02', N'gà'),
+('C01', N'spaghetti');
+insert into products values
+('PR06', N'Pessi', N'rẻ', 'C03', 'huhu', 1000),
+('PR05', N'Gà Rán', N'rẻ', 'C02', 'huhu', 110000),
+('PR04', N'Cơm gà viên', N'rẻ', 'C02', 'huhu', 13000),
+('PR01', N'Mỳ ý thịt bò', N'Ngon', 'C01', 'haha', 20000),
+('PR02', N'Mỳ ý sốt kem', N'bổ', 'C01', 'hiha', 30000),
+('PR03', N'Mỳ ý cua', N'rẻ', 'C01', 'huhu', 10000);
+-- cau 4:
+insert into store_products values
+('STP04', 'S03', 'PR04', 1),
+('STP05', 'S03', 'PR05', 0),
+('STP06', 'S03', 'PR06', 1),
+('STP01', 'S02', 'PR01', 1),
+('STP02', 'S02', 'PR02', 1),
+('STP03', 'S02', 'PR03', 1);
+insert into customers values 
+('CUS04', N'ADU', 'haha@gmail.com', '111114', N'Ninh Thuận', '2002-01-02'),
+('CUS03', N'Josiah Cline', 'haha@gmail.com', '111114', N'Ninh Thuận', '2002-01-02'),
+('CUS02', N'Long', 'haha@gmail.com', '111114', N'Ninh Thuận', '2002-01-02'),
+('CUS01', N'Mario', 'long@gmail.com', '114', N'Ninh Bình', '2000-09-02');
+insert into order_details values
+('D04', 'O02', 'STP06', 1, '2022-1-1','2020-4-3'),
+('D01', 'O02', 'STP04', 2, '2022-3-3','2022-3-2'),
+('D02', 'O02', 'STP05', 4, '2020-5-3','2022-1-1'),
+('D03', 'O02', 'STP06', 4, '2022-1-1','2020-4-3');
+-- cau10: Tạo order
+insert into orders values
+('O08', 'S02', 'CUS01', 'KM01', 'SP02', 2200220, 1, 1, 1, '2022-1-1','2022-1-2'),
+('O07', 'S03', 'CUS02', 'KM01', 'SP02', 220003, 1, 1, 1, '2022-2-1','2022-1-2'),
+('O06', 'S02', 'CUS02', 'KM01', 'SP02', 22000, 1, 1, 1, '2022-4-12','2022-1-2'),
+('O05', 'S01', 'CUS04', 'KM01', 'SP02', 22000, 1, 1, 1, '2022-1-1','2022-1-2'),
+('O04', 'S03', 'CUS04', 'KM01', 'SP02', 22000, 1, 1, 1, '2022-3-1','2022-1-2'),
+('O03', 'S01', 'CUS02', 'KM01', 'SP02', 22000, 1, 1, 1, '2022-1-1','2022-1-2'),
+('O02', 'S03', 'CUS03', 'KM01', 'SP03', 11000, 1, 1, 1, '2022-1-3','2022-3-3'),
+('O01', 'S01', 'CUS01', 'KM01', 'SP02', 2200, 1, 1, 1, '2022-2-1','2022-1-2');
+insert into promotions values
+('KM01', N'Thứ hai nửa giá','2022-2-2', '2023-2-2', '2022-2-24', 100000),
+('KM02', N'Thứ hai nửa giá','2022-2-24', '2022-2-25', '2022-2-24', 10),
+('KM03', N'Đầu tuần vui vẻ','2022-2-24', '2022-2-25', '2022-2-24', 50),
+('KM04', N'Cuối tuần vui vẻ','2022-1-1', '2022-2-25', '2022-1-1', 10);
