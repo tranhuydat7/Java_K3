@@ -1,0 +1,60 @@
+use LAYLOIHOI_DB;
+
+
+-- 1
+select MADATPHONG, MADV, SOLUONG
+from chi_tiet_su_dung_dv
+where SOLUONG BETWEEN 4 AND 9;
+ 
+ -- 2
+update phong 
+SET GIAPHONG = GIAPHONG + 10
+where SOKHACHTOIDA > 10;
+ 
+ -- 3
+DELETE 
+from dat_phong 
+where TRANGTHAIDAT = 'DA HUY';
+ 
+-- 4
+select TENKH
+from khach_hang 
+where TENKH LIKE '[HNM]%' and LEN(TENKH) <= 20MADV;
+
+ -- 5
+select DISTINCT TENKH 
+from khach_hang;
+ 
+ -- 6
+select TENKH 
+from khach_hang 
+group by TENKH;
+ 
+ -- 7
+select MADV, TENDV, DONVITINH, DONGIA
+from dich_vu_di_kem 
+where ( DONVITINH LIKE 'lon' AND DONGIA > 10 ) OR(DONVITINH LIKE 'CAI' AND DONGIA < 5);
+
+ -- 8
+select dp.MADATPHONG, dp.MAPHONG, p.LOAIPHONG, p.SOKHACHTOIDA, p.GIAPHONG, kh.MAKH, kh.TENKH, kh.SODT, dp.NGAYDAT, dp.GIOBATDAU, dp.GIOKETTHUC, dv.MADV, ct.SOLUONG, dv.DONGIA
+from dat_phong dp
+join khach_hang kh on dp.MAKH = kh.MAKH
+join phong p on dp.MAPHONG = p.MAPHONG
+join chi_tiet_su_dung_dv ct on dp.MADATPHONG = ct.MADATPHONG
+join dich_vu_di_kem dv on ct.MADV = dv.MADV
+where (year(NGAYDAT) = 2016 or year(NGAYDAT) = 2018) and p.GIAPHONG > 50;
+
+-- 9
+select *
+from khach_hang
+where DIACHI = 'HOA XUAN' and MAKH in
+(select distinct MAKH from dat_phong);
+
+-- 10
+select p.MAPHONG, p.LOAIPHONG, p.SOKHACHTOIDA, p.GIAPHONG, count(dp.MAKH) SOLANDAT
+from phong p 
+join dat_phong dp
+on p.MAPHONG = dp.MAPHONG
+where TRANGTHAIDAT = 'DA DAT'
+group by p.MAPHONG, p.LOAIPHONG, p.SOKHACHTOIDA, p.GIAPHONG
+having count(dp.MAKH) > 2;
