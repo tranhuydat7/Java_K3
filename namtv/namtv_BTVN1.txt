@@ -1,0 +1,256 @@
+1. Tạo master data thành phố (cities), quận huyện(districts), cửa hàng (stores), đơn vị vận chuyển (shipping_units), danh mục hàng (categories)
+create Table cities (
+  id int not null primary key ,
+  city_name varchar(255),
+  created_at timestamp
+) ENGINE = InnoDB
+
+create Table districts (
+  id int not null primary key auto_increment,
+  name varchar(255) ,
+  city_id int,
+  created_at timestamp 
+) ENGINE = InnoDB;
+
+create Table stores (
+  id int not null primary key auto_increment,
+  store_name varchar(255) ,
+  address varchar(255) ,
+  district_id int ,
+  image varchar(255) ,
+  store_description text ,
+  created_at timestamp
+) ENGINE = InnoDB;
+
+create Table shipping_units (
+  id int not null primary key auto_increment,
+  shipping_name varchar(255) ,
+  address varchar(255) ,
+  phone varchar(11) ,
+  created_at timestamp 
+) ENGINE = InnoDB;
+
+create Table categories (
+  id int not null primary key auto_increment,
+  category_name varchar(255) ,
+  created_at timestamp
+) ENGINE = InnoDB;
+
+insert into cities(city_name, created_at) value('Hải Phòng', now());
+insert into districts(name, city_id, created_at) value('Lê Chân', 1, now());
+insert into districts(name, city_id, created_at) value('Ngô Quyền', 1, now());
+insert into stores(store_name, district_id, created_at) value('Lotteria Lê Chân', 2,now()), ('Lotteria Ngô Quyền', 3,now());
+insert into categories(category_name, created_at) value ('Spaghetti', now());
+
+
+
+2. Tạo tài khoản cho user với role là manager thuộc cửa hàng "Lotteria Lê Chân":
+create Table roles (
+  id int not null primary key auto_increment,
+  role_name varchar(255) ,
+  created_at timestamp 
+) ENGINE = InnoDB;
+insert into roles(role_name, created_at) value ('manager', now());
+
+create Table users (
+  id int not null primary key auto_increment,
+  user_code int(6) ,
+  user_name varchar(255) ,
+  user_pass varchar(255) ,
+  email varchar(255) ,
+  phone varchar(11) ,
+  avatar varchar(255) ,
+  role_id int ,
+  store_id int ,
+  created_at timestamp
+) ENGINE = InnoDB;
+insert into users(user_name, store_id,user_code,role_id, created_at) value ('manager',1,12345,2, now());
+
+3. Thêm 3 mặt hàng thuộc danh mục "Spaghetti": Mỳ ý thịt bò, Mỳ ý sốt kem, Mỳ ý cua
+create Table products (
+  id int not null primary key auto_increment,
+  product_name varchar(255) ,
+  product_description text ,
+  category_id int ,
+  image varchar(255) ,
+  price double ,
+  created_at timestamp
+) ENGINE = InnoDB;
+insert into products(product_name, category_id, price, created_at) value ('Mỳ Ý thịt bò', 1, 40000, now()),  ('Mỳ Ý sốt kem', 1, 35000, now()),  ('Mỳ Ý cua', 1, 50000, now());
+
+4. Thêm 3 mặt hàng ở mục 3 cho cửa hàng "Lotteria Ngô Quyền"
+create Table store_products (
+  id int not null primary key auto_increment,
+  store_id int,
+  product_id int,
+  product_status int,
+  created_at timestamp
+) ENGINE = InnoDB;
+insert into store_products(store_id, product_id) value (2,1),(2,2),(2,3);
+
+
+5. Liệt kê danh sách cửa hàng ở "Hà Nội"
+SELECT s.id as 'store_id', s.address, s.store_name, d.name as 'district_name' 
+FROM stores s 
+JOIN cities c
+JOIN districts d
+ON c.id = d.city_id AND d.id = s.district_id AND c.city_name = 'Hà Nội';
+
+6.Liệt kê các đơn hàng mà KH có tên là "Merritt Fernandez" đã đặt
+select ord.id, ord.price, ord.payment_method, ord.order_status, ship.shipping_name as 'shipping_unit', ord.created_at
+from btvn_1.customers cus
+join btvn_1.orders ord
+join btvn_1.shipping_units ship
+on cus.id = ord.customer_id
+and ord.shipping_unit_id = ship.id;
+
+7. Liệt kê các mặt hàng và danh mục từng mặt hàng ở cửa hàng "Lotteria Cầu Giấy" 
+select pro.id, pro.product_name, cat.category_name, spro.product_status
+from products pro
+join store_products spro
+join stores str
+join categories cat
+on pro.category_id = cat.id
+and spro.product_id = pro.id
+and spro.store_id = str.id
+and str.store_name = 'Lotteria Cầu Giấy';
+
+8.Liệt kê thông tin KH có tên "Josiah Cline" bao gồm: tên, email, điện thoại, địa chỉ, ngày sinh nhật
+select customer_name, email, phone, address, birthday
+from customers
+where customer_name = 'Josiah Cline';
+
+9. Cập nhật lại thông tin KH có id = 7 với nội dung sau:
+- Số điện thoại: 0338443113
+- Địa chỉ: Phạm Hùng, Nam Từ Liêm, Hà Nội
+- Ngày sinh: 2000-03-01
+update customers
+set phone = '0338443113', address = 'Phạm Hùng, Nam Từ Liêm, Hà Nội', birthday = '2000-03-01'
+where id = 1;
+
+10. Tạo order với các thông tin sau:
+- Khách hàng: Josiah Cline
+- Cửa hàng: Lotteria Cầu Giấy
+- Ưu đãi: Thứ hai nửa giá
+- Đơn vị vận chuyển: Giao hàng nhanh
+- Hình thức thanh toán: 1 
+- Mặt hàng - số lượng: Gà rán - 4, Pepsi - 4, Cơm gà viên - 2
+
+create Table promotions (
+  id int not null primary key auto_increment,
+  promotions_name varchar(255),
+  start_date datetime,
+  end_date datetime,
+  apply_day varchar(255),
+  discount int,
+  created_at timestamp
+);
+
+create Table order_details (
+  id int not null primary key auto_increment,
+  order_id int,
+  store_product_id int,
+  quantity int,
+  created_at timestamp
+);
+insert into promotions(apply_day, discount, created_at) value (2, 50, now());
+insert into products(product_name) value ('Gà rán'), ('Cơm gà viên');
+insert into products(product_name) value ('Pepsi');
+insert into stores(store_name) value ('Lotteria Cầu Giấy');
+insert into shipping_units(shipping_name) value('Giao hàng nhanh');
+insert into store_products(product_id) value (4), (5);
+insert into store_products(product_id) value (6);
+insert into orders(customer_id, store_id, promotion_id, shipping_unit_id, payment_method) value (2, 4, 1, 3, 1), (2, 4, 1, 3, 1);
+insert into order_details(order_id, store_product_id, quantity) value (3, 4, 4), (3, 5, 2), (3, 6, 4);
+
+11.  Hủy đơn hàng vừa tạo ở mục 7 bằng cách cập nhật lại status (1: chờ vận chuyển, 2: đang vận chuyển, 3: đã nhận hàng, 4: hủy đơn hàng)
+update orders
+set order_status = 4
+where id = 1;
+
+12. Tra cứu thông tin tất cả đơn đặt hàng của KH có tên "Merritt Fernandez" trong tháng 3
+select ord.id, ord.price, ord.order_status, ord.created_at
+from orders ord 
+join customers cus
+on ord.customer_id = cus.id
+and cus.customer_name = 'Merritt Fernandez'
+and month(ord.created_at) = 3;
+
+13. Giả sử hôm nay là Thứ 2, hãy liệt kê ưu đãi được phép sử dụng vào ngày hôm nay theo thứ tự discount giảm dần
+select id, promotions_name, discount
+from promotions
+where apply_day = 2
+order by discount desc;
+
+14. Tìm mặt hàng được đặt hàng nhiều thứ 2 ở cửa hàng "Lotteria Trần Duy Hưng"
+select a.product_name,  a.total_order from
+(select pro.product_name, count(ord.id) as total_order
+from orders ord
+join order_details ordd
+join store_products strpd
+join products pro
+join stores str
+on ord.store_id = str.id
+and ord.id = ordd.order_id
+and ordd.store_product_id = strpd.id
+and pro.id = strpd.product_id
+group by pro.product_name
+order by total_order desc
+limit 2) a
+order by a.total_order asc
+limit 1;
+
+
+15. Liệt kê 3 khách hàng đặt hàng nhiều nhất ở cửa hàng "Lotteria Cầu Giấy" theo thứ tự số lượng đơn đặt hàng giảm dần
+select cus.customer_name, count(*) as total_order
+from customers cus
+join orders ord 
+on cus.id = ord.customer_id
+group by cus.customer_name
+order by total_order desc
+limit 3;
+
+16. Liệt kê những đơn hàng của cửa hàng "Lotteria Cầu Giấy" đang ở trạng thái chưa thanh toán (1: chưa thanh toán, 2: thanh toán thành công, 3: thanh toán lỗl)
+select ord.id, ord.price, ord.payment_method, ord.created_at
+from orders ord
+join stores str 
+on ord.store_id = str.id 
+and str.store_name = 'Lotteria Cầu Giấy'
+and ord.payment_status = 1;
+
+17. Liệt kê tất cả những mã giảm giá có trong hệ thống kèm theo số lượng mã đã áp dụng
+select pro.promotions_name as 'name', count(*) as total_order
+from orders ord
+join promotions pro
+on ord.promotion_id = pro.id
+group by pro.promotions_name;
+
+18. Liệt kê 3 cửa hàng có doanh thu trong tháng 1 lớn hơn 100,000
+(Không cần kiểm tra điều kiện của orders.status và orders.payment_status)
+select str.store_name, sum(ord.price) as total_price
+from orders ord
+join stores str
+on str.id = ord.store_id
+and month(ord.created_at) = 2
+group by str.store_name
+having sum(ord.price) > 100000
+order by total_price desc
+limit 3;
+
+19. Doanh số bán hàng của cửa hàng "Lotteria Cầu Giấy" theo từng ngày và từng phương thức thanh toán 
+(Không cần kiểm tra điều kiện của orders.status và orders.payment_status)
+select date_format(ord.created_at, '%Y-%m-%d') as 'order_date', ord.payment_method, sum(ord.price) as total_price
+from orders ord
+join stores str 
+on ord.store_id = str.id
+group by order_date, ord.payment_method;
+
+
+20. Tìm đơn vị vận chuyển đã vận chuyển được ít đơn hàng nhất và số lượng đơn hàng đơn vị đó đã vận chuyển
+select ship.shipping_name, count(*) as total_order
+from orders ord
+join shipping_units ship
+on ord.shipping_unit_id = ship.id 
+group by ship.shipping_name
+order by total_order asc
+limit 1;

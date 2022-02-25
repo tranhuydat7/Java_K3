@@ -1,0 +1,144 @@
+create Table cities (
+  id int not null primary key ,
+  city_name varchar(255),
+  created_at timestamp
+) ENGINE = InnoDB
+
+create Table districts (
+  id int not null primary key auto_increment,
+  name varchar(255) ,
+  city_id int,
+  created_at timestamp 
+) ENGINE = InnoDB;
+
+create Table stores (
+  id int not null primary key auto_increment,
+  store_name varchar(255) ,
+  address varchar(255) ,
+  district_id int ,
+  image varchar(255) ,
+  store_description text ,
+  created_at timestamp
+) ENGINE = InnoDB;
+
+create Table shipping_units (
+  id int not null primary key auto_increment,
+  shipping_name varchar(255) ,
+  address varchar(255) ,
+  phone varchar(11) ,
+  created_at timestamp 
+) ENGINE = InnoDB;
+
+create Table categories (
+  id int not null primary key auto_increment,
+  category_name varchar(255) ,
+  created_at timestamp
+) ENGINE = InnoDB;
+
+create Table roles (
+  id int not null primary key auto_increment,
+  role_name varchar(255) ,
+  created_at timestamp 
+) ENGINE = InnoDB;
+
+create Table users (
+  id int not null primary key auto_increment,
+  user_code int(6) ,
+  user_name varchar(255) ,
+  user_pass varchar(255) ,
+  email varchar(255) ,
+  phone varchar(11) ,
+  avatar varchar(255) ,
+  role_id int ,
+  store_id int ,
+  created_at timestamp
+) ENGINE = InnoDB;
+
+create Table products (
+  id int not null primary key auto_increment,
+  product_name varchar(255) ,
+  product_description text ,
+  category_id int ,
+  image varchar(255) ,
+  price double ,
+  created_at timestamp
+) ENGINE = InnoDB;
+
+create Table store_products (
+  id int not null primary key auto_increment,
+  store_id int,
+  product_id int,
+  product_status int,
+  created_at timestamp
+) ENGINE = InnoDB;
+
+create Table customers (
+  id int not null primary key auto_increment,
+  customer_name varchar(255),
+  email varchar(255),
+  phone varchar(11),
+  address varchar(255),
+  birthday date,
+  created_at timestamp
+);
+
+create Table orders (
+  id int not null primary key auto_increment,
+  store_id int,
+  customer_id int,
+  promotion_id int,
+  shipping_unit_id int,
+  price double,
+  payment_method int,
+  order_status int,
+  payment_status int,
+  created_at timestamp
+);
+
+create Table promotions (
+  id int not null primary key auto_increment,
+  promotions_name varchar(255),
+  start_date datetime,
+  end_date datetime,
+  apply_day varchar(255),
+  discount int,
+  created_at timestamp
+);
+
+create Table order_details (
+  id int not null primary key auto_increment,
+  order_id int,
+  store_product_id int,
+  quantity int,
+  created_at timestamp
+);
+
+
+
+insert into cities(city_name, created_at) value('Hải Phòng', now());
+insert into districts(name, city_id, created_at) value('Lê Chân', 1, now());
+insert into districts(name, city_id, created_at) value('Ngô Quyền', 1, now());
+insert into stores(store_name, district_id, created_at) value('Lotteria Lê Chân', 2,now()), ('Lotteria Ngô Quyền', 3,now());
+insert into categories(category_name, created_at) value ('Spaghetti', now());
+insert into roles(role_name, created_at) value ('manager', now());
+insert into users(user_name, store_id,user_code,role_id, created_at) value ('manager',1,12345,2, now());
+insert into products(product_name, category_id, price, created_at) value ('Mỳ Ý thịt bò', 1, 40000, now()),  ('Mỳ Ý sốt kem', 1, 35000, now()),  ('Mỳ Ý cua', 1, 50000, now());
+insert into store_products(store_id, product_id) value (2,1),(2,2),(2,3);
+insert into cities(city_name, created_at) value('Hà Nội', now());
+insert into districts(name, city_id, created_at) value('Bà Triệu', 3, now());
+insert into stores(store_name, address, district_id) value ('Lotteria Bà Triệu', 'Bà Triệu', 4);
+insert into customers(customer_name,created_at) value ('Merritt Fernandez',now());
+insert into orders(price, payment_method, order_status, shipping_unit_id, customer_id,created_at) value(500000, 2, 2, 1, 1, now());
+insert into customers(customer_name,email, phone, address, birthday) value ('Josiah Cline', 'mauris@yahoo.com', '8661930889', '8466 Aliquet Ave', '2020-12-29');
+insert into promotions(apply_day, discount, created_at) value (2, 50, now());
+insert into products(product_name) value ('Gà rán'), ('Cơm gà viên');
+insert into products(product_name) value ('Pepsi');
+insert into stores(store_name) value ('Lotteria Cầu Giấy');
+insert into shipping_units(shipping_name) value('Giao hàng nhanh');
+insert into store_products(product_id) value (4), (5);
+insert into store_products(product_id) value (6);
+insert into orders(customer_id, store_id, promotion_id, shipping_unit_id, payment_method) value (2, 4, 1, 3, 1), (2, 4, 1, 3, 1);
+insert into order_details(order_id, store_product_id, quantity) value (3, 4, 4), (3, 5, 2), (3, 6, 4);
+insert into promotions(apply_day, discount,promotions_name, created_at) value (2, 30,'Đầu tuần vui vẻ', now());
+
+
