@@ -1,0 +1,432 @@
+-- MySQL dump 10.13  Distrib 8.0.28, for Win64 (x86_64)
+--
+-- Host: localhost    Database: fastfood_system
+-- ------------------------------------------------------
+-- Server version	8.0.28
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categories` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categories`
+--
+
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (1,'Spaghetti','2022-01-23 07:00:00','2022-01-23 09:00:00'),(2,'Gà','2022-01-23 07:00:00','2022-01-23 09:00:00'),(3,'Nước uống','2022-01-23 07:00:00','2022-01-23 09:00:00'),(4,'Cơm','2022-01-23 07:00:00','2022-01-23 09:00:00');
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cities`
+--
+
+DROP TABLE IF EXISTS `cities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cities` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cities`
+--
+
+LOCK TABLES `cities` WRITE;
+/*!40000 ALTER TABLE `cities` DISABLE KEYS */;
+INSERT INTO `cities` VALUES (1,'Hải Phòng','2022-01-23 07:00:00','2022-01-23 09:00:00'),(2,'Hà Nội','2022-01-23 07:00:00','2022-01-23 09:00:00');
+/*!40000 ALTER TABLE `cities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `customers`
+--
+
+DROP TABLE IF EXISTS `customers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `customers` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(11) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `customers`
+--
+
+LOCK TABLES `customers` WRITE;
+/*!40000 ALTER TABLE `customers` DISABLE KEYS */;
+INSERT INTO `customers` VALUES (1,'Josiah Cline','josiah@gmail.com','0928378291','Số 2 ngõ 44 Cầu giấy','2000-01-11','2022-01-23 07:00:00','2022-01-23 09:00:00'),(2,'Merritt Fernandez','merit@gmail.com','0284275954','So2 cau giay','2000-02-02','2022-01-23 07:00:00','2022-01-23 09:00:00'),(3,'Le Van A','a@gmail.com','0238534955','So2 vinh tuy','2000-02-02','2022-01-23 07:00:00','2022-01-23 09:00:00'),(4,'Le Van B','b@gmail.com','0238752357','So 4 dong da','2000-02-02','2022-01-23 07:00:00','2022-01-23 09:00:00'),(5,'Le Van c','c@gmail.com','0283724455','So 5 hai ba trung','2000-02-02','2022-01-23 07:00:00','2022-01-23 09:00:00'),(7,'Le Van D','D@gmail.com','0338443113','Phạm Hùng, Nam Từ Liêm, Hà Nội','2000-03-01','2022-01-23 09:00:00','2022-01-23 09:00:00');
+/*!40000 ALTER TABLE `customers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `districts`
+--
+
+DROP TABLE IF EXISTS `districts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `districts` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `city_id` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `city_id` (`city_id`),
+  CONSTRAINT `districts_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `districts`
+--
+
+LOCK TABLES `districts` WRITE;
+/*!40000 ALTER TABLE `districts` DISABLE KEYS */;
+INSERT INTO `districts` VALUES (1,'Lê Chân',1,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(2,'Ngô Quyền',1,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(3,'Cầu Giấy',2,'2022-01-23 07:00:00','2022-01-23 09:00:00');
+/*!40000 ALTER TABLE `districts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `order_details`
+--
+
+DROP TABLE IF EXISTS `order_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `order_details` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `order_id` int DEFAULT NULL,
+  `store_product_id` int DEFAULT NULL,
+  `quantity` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_id` (`order_id`),
+  KEY `store_product_id` (`store_product_id`),
+  CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`store_product_id`) REFERENCES `store_products` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_details`
+--
+
+LOCK TABLES `order_details` WRITE;
+/*!40000 ALTER TABLE `order_details` DISABLE KEYS */;
+INSERT INTO `order_details` VALUES (1,1,4,4,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(2,1,5,5,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(3,1,6,8,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(4,7,7,10,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(5,7,8,11,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(6,7,9,12,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(7,7,8,0,'2022-01-23 07:00:00','2022-01-23 09:00:00');
+/*!40000 ALTER TABLE `order_details` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `orders` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `store_id` int DEFAULT NULL,
+  `customer_id` int DEFAULT NULL,
+  `promotion_id` int DEFAULT NULL,
+  `shipping_unit_id` int DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `payment_method` int DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  `payment_status` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `customer_id` (`customer_id`),
+  KEY `promotion_id` (`promotion_id`),
+  KEY `shipping_unit_id` (`shipping_unit_id`),
+  KEY `store_id` (`store_id`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
+  CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`promotion_id`) REFERENCES `promotions` (`id`),
+  CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`shipping_unit_id`) REFERENCES `shipping_units` (`id`),
+  CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`store_id`) REFERENCES `stores` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orders`
+--
+
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES (1,3,1,1,3,300000,1,0,1,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(2,3,2,2,3,92999,1,1,1,'2022-03-24 07:00:00','2022-04-23 07:00:00'),(5,1,2,3,2,10000,2,1,3,'2022-03-23 07:00:00','2022-04-23 07:00:00'),(6,1,2,1,2,93489,3,1,1,'2022-03-23 07:00:00','2022-04-23 07:00:00'),(7,1,2,1,2,10000,1,4,2,'2022-01-23 07:00:00','2022-04-23 07:00:00'),(8,3,1,1,2,345345,2,1,3,'2022-01-24 07:00:00','2022-04-23 07:00:00'),(9,3,1,1,1,41344,1,1,2,'2022-01-23 07:00:00','2022-04-23 07:00:00'),(10,3,5,1,1,345345,1,1,1,'2022-01-21 07:00:00','2022-04-23 07:00:00'),(11,3,5,1,1,345345,1,1,1,'2022-01-21 07:00:00','2022-01-23 07:00:00'),(12,3,3,1,1,345345,2,1,1,'2022-01-23 07:00:00','2022-01-23 07:00:00'),(13,3,5,2,1,345345,3,1,2,'2022-02-24 07:00:00','2022-01-23 07:00:00'),(14,3,2,2,1,345345,1,1,2,'2022-02-25 07:00:00','2022-01-23 07:00:00'),(15,3,1,1,3,345345,2,1,1,'2022-01-23 07:00:00','2022-01-23 07:00:00');
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products`
+--
+
+DROP TABLE IF EXISTS `products`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `products` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `description` text,
+  `category_id` int DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `category_id` (`category_id`),
+  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products`
+--
+
+LOCK TABLES `products` WRITE;
+/*!40000 ALTER TABLE `products` DISABLE KEYS */;
+INSERT INTO `products` VALUES (1,'Mỳ ý thịt bò','Ngon',1,'myythitbo.jpg',20.54,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(2,'Mỳ ý xốt kem','Ngon',1,'myyxotkem.jpg',55.531,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(3,'Mỳ ý cua','Ngon',1,'myycua.jpg',100000,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(4,'Gà rán','Good',2,'garan.jpg',20000,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(5,'Pessi','Good',3,'pessi.jpg',20000,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(6,'Cơm gà viên','Good',4,'comgavien.jpg',20000,'2022-01-23 07:00:00','2022-01-23 09:00:00');
+/*!40000 ALTER TABLE `products` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `promotions`
+--
+
+DROP TABLE IF EXISTS `promotions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `promotions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `start_date` datetime DEFAULT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `apply_day` varchar(255) DEFAULT NULL,
+  `discount` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `promotions`
+--
+
+LOCK TABLES `promotions` WRITE;
+/*!40000 ALTER TABLE `promotions` DISABLE KEYS */;
+INSERT INTO `promotions` VALUES (1,'Thứ hai nửa giá','2022-01-01 00:00:00','2022-02-01 23:59:59','2022-01-01',20000,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(2,'Thứ 2 vip','2022-01-01 00:00:00','2022-01-01 00:00:00','2022-01-01 00:00:00',10000,NULL,NULL),(3,'Thu 5 vip','2022-02-24 00:00:00','2022-02-24 00:00:00','2022-02-24 00:00:00',30000,'2022-02-23 17:00:00','2022-02-23 17:00:00');
+/*!40000 ALTER TABLE `promotions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `roles` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles`
+--
+
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` VALUES (1,'Manager','2022-01-23 07:00:00','2022-01-23 09:00:00');
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `shipping_units`
+--
+
+DROP TABLE IF EXISTS `shipping_units`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `shipping_units` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `phone` varchar(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `shipping_units`
+--
+
+LOCK TABLES `shipping_units` WRITE;
+/*!40000 ALTER TABLE `shipping_units` DISABLE KEYS */;
+INSERT INTO `shipping_units` VALUES (1,'Viettel Post','Số 1 nhổn','062210468','2022-01-23 07:00:00','2022-01-23 09:00:00'),(2,'Aha','Số 123 Cầu Giấy','0589282373','2022-01-23 07:00:00','2022-01-23 09:00:00'),(3,'Giao hàng nhanh','Số 22 Nhổn, Nam từ Liêm','029384839','2022-01-23 07:00:00','2022-01-23 09:00:00');
+/*!40000 ALTER TABLE `shipping_units` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `store_products`
+--
+
+DROP TABLE IF EXISTS `store_products`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `store_products` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `store_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `store_id` (`store_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `store_products_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `stores` (`id`),
+  CONSTRAINT `store_products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `store_products`
+--
+
+LOCK TABLES `store_products` WRITE;
+/*!40000 ALTER TABLE `store_products` DISABLE KEYS */;
+INSERT INTO `store_products` VALUES (1,2,1,111,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(2,2,2,111,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(3,2,3,111,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(4,3,4,111,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(5,3,5,111,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(6,3,6,111,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(7,4,1,111,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(8,4,2,111,'2022-01-23 07:00:00','2022-01-23 09:00:00'),(9,4,3,111,'2022-01-23 07:00:00','2022-01-23 09:00:00');
+/*!40000 ALTER TABLE `store_products` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stores`
+--
+
+DROP TABLE IF EXISTS `stores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `stores` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `district_id` int DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `description` text,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `district_id` (`district_id`),
+  CONSTRAINT `stores_ibfk_1` FOREIGN KEY (`district_id`) REFERENCES `districts` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stores`
+--
+
+LOCK TABLES `stores` WRITE;
+/*!40000 ALTER TABLE `stores` DISABLE KEYS */;
+INSERT INTO `stores` VALUES (1,'Lotteria Lê Chân','Số 1 Lê chân',1,'lechan.jpg','Chi nhánh Lê Chân','2022-01-23 07:00:00','2022-01-23 09:00:00'),(2,'Lotteria Ngô Quyền','Số 1 Ngô Quyền',2,'ngoquyen.jpg','Chi nhánh Ngô Quyền','2022-01-23 07:00:00','2022-01-23 09:00:00'),(3,'Lotteria Cầu Giấy','Số 333 Cầu giấy',3,'caugiay.jpg','Chi nhánh Ngô Quyền','2022-01-23 07:00:00','2022-01-23 09:00:00'),(4,'Lotteria Trần Duy Hưng','Số 333 Cầu giấy',3,'caugiay.jpg','Chi nhánh Ngô Quyền','2022-01-23 07:00:00','2022-01-23 07:00:00');
+/*!40000 ALTER TABLE `stores` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `code` int DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(11) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `role_id` int DEFAULT NULL,
+  `store_id` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `role_id` (`role_id`),
+  KEY `store_id` (`store_id`),
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `users_ibfk_2` FOREIGN KEY (`store_id`) REFERENCES `stores` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,12345,'manager','12345','manager@gmail.com','0927647382','avatar.jpg',1,1,'2022-01-23 07:00:00','2022-01-23 09:00:00');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'fastfood_system'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-02-25  9:41:43
