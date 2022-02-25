@@ -1,0 +1,44 @@
+ use LAYLOIHOI_DB;
+ select * from khach_hang;
+ -- I --
+ -- Cau 1:
+ select MaDatPhong, MaDV, SOLUONG from CHI_TIET_SU_DUNG_DV where SOLUONG between 4 and 9;
+ -- Cau 2:
+ update phong set GIAPHONG = GIAPHONG + 10 where phong.SOKHACHTOIDA > 10;
+ -- Cau 3:
+ delete from dat_phong where TRANGTHAIDAT ="DA HUY";
+
+ -- II --
+  -- Cau 4:
+  select TENKH from khach_hang where TENKH Like 'H%' or TENKH Like 'N%' or TENKH like 'M%' and length(TENKH)<12;
+  -- Cau 5:
+  -- Cach 1 : 
+  select TENKH from khach_hang group by TENKH;
+  -- Cach 2:
+  select distinct TENKH from khach_hang;
+  -- Cau 6 :
+  Select * from dich_vu_di_kem where (DONVITINH ='LON' and Dongia>10000)  or (DONVITINH ='Cai' and Dongia <5000);
+  -- Cau 7 :
+  select dat_phong.MADATPHONG, dat_phong.MAPHONG, phong.LOAIPHONG, phong.SOKHACHTOIDA,phong.GIAPHONG,khach_hang.MAKH,khach_hang.TENKH,khach_hang.SODT,dat_phong.NGAYDAT,dat_phong.GIOBATDAU,dat_phong.GIOKETTHUC,chi_tiet_su_dung_dv.MADV,chi_tiet_su_dung_dv.SOLUONG,dich_vu_di_kem.DONGIA 
+  from dat_phong 
+  join phong on dat_phong.MAPHONG= phong.MAPHONG 
+  join khach_hang on dat_phong.MAKH = khach_hang.MAKH 
+  join chi_tiet_su_dung_dv on dat_phong.MADATPHONG=chi_tiet_su_dung_dv.MADATPHONG 
+  join dich_vu_di_kem on chi_tiet_su_dung_dv.MADV= dich_vu_di_kem.MADV 
+  where (year(NGAYDAT)= 2016 or year(NGAYDAT)=2017) and phong.GIAPHONG >50000;
+   -- III --
+  -- Cau 8:
+  select dat_phong.MADATPHONG, dat_phong.MAPHONG, phong.LOAIPHONG, phong.GIAPHONG, khach_hang.TENKH, dat_phong.NGAYDAT , phong.GIAPHONG * (GIOKETTHUC-GIOBATDAU) as 'TONG TIEN HAT', SUM(chi_tiet_su_dung_dv.SOLUONG * dich_vu_di_kem.DONGIA) as 'Tong tien su dung dich vu', phong.GIAPHONG * (GIOKETTHUC-GIOBATDAU) + SUM(chi_tiet_su_dung_dv.SOLUONG * dich_vu_di_kem.DONGIA) as 'Tong toien thanh toan' 
+  from dat_phong 
+  join phong on dat_phong.MAPHONG= phong.MAPHONG 
+  join khach_hang on dat_phong.MAKH = khach_hang.MAKH 
+  join chi_tiet_su_dung_dv on dat_phong.MADATPHONG=chi_tiet_su_dung_dv.MADATPHONG 
+  join dich_vu_di_kem on chi_tiet_su_dung_dv.MADV= dich_vu_di_kem.MADV 
+group by dat_phong.MADATPHONG;
+  
+  -- Cau 9:
+  select khach_hang.MAKH , khach_hang.TENKH, khach_hang.DIACHI, khach_hang.SODT from khach_hang where khach_hang.DIACHI ='Hoa xuan' and exists (select * from dat_phong where khach_hang.MAKH = dat_phong.MAKH );
+  
+  -- Cau 10 :
+  select phong.LOAIPHONG , phong.LOAIPHONG, phong.SOKHACHTOIDA, phong.GIAPHONG, count(dat_phong.MAPHONG) as 'So lan dat' from phong inner join dat_phong on phong.MAPHONG = dat_phong.MAPHONG where dat_phong.TRANGTHAIDAT ='DA DAT' group by phong.MAPHONG having count( dat_phong.MAPHONG) >2;
+  

@@ -1,0 +1,140 @@
+use Food;
+select * from stores;
+
+-- Cau 1 :
+INSERT INTO `cities` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'HAI Phong','2022-01-23 15:00:00','2022-01-23 16:00:00');
+
+INSERT INTO `districts` (`id`, `name`, `city_id`,`created_at`, `updated_at`) VALUES
+(1, 'Lê Chân',1,'2022-01-23 15:00:00','2022-01-23 16:00:00'),
+(2, 'Ngô Quyền',1,'2022-01-23 15:00:00','2022-01-23 16:00:00');
+
+insert into `stores` (`id`, `name` ,`address`, `district_id`, `image`, `description`,`created_at`, `updated_at` ) value
+(1,'Lotteria Lê Chân','Lotteria Lê Chân',1,'1.jgp','Lotteria Lê Chân','2022-01-23 15:00:00','2022-01-23 16:00:00'),
+(2,'Lotteria Ngô Quyền','Lotteria Ngô Quyền',2,'2.jgp','Lotteria Ngô Quyền','2022-01-23 15:00:00','2022-01-23 16:00:00');
+
+insert into shipping_units (`id`, `name` ,`address`, `phone`,`created_at`, `updated_at` ) value
+(1, 'Aha move','Ha Noi', 0999999,'2022-01-23 15:00:00','2022-01-23 16:00:00'),
+(2, 'Viettel Post','Ha Nam', 0999999,'2022-01-23 15:00:00','2022-01-23 16:00:00');
+
+insert into categories(`id`, `name` ,`created_at`, `updated_at` ) value
+(1, 'Spaghetti', '2022-01-23 15:00:00','2022-01-23 16:00:00');
+
+-- Cau 2 :
+insert into roles (`id`, `name` ,`created_at`, `updated_at` ) value
+(1, 'admin', '2022-01-23 15:00:00','2022-01-23 16:00:00'),
+(2, 'manager', '2022-01-23 15:00:00','2022-01-23 16:00:00');
+
+insert into users (`id`, `code`,`name`,`password`, `email`, `phone`, `avatar`, `role_id` , `store_id` ,`created_at`, `updated_at` ) value
+(1,'12345','Dong','123456','dongbq91@gmail.com','098898988','dong.jpg',2,1,'2022-01-23 15:00:00','2022-01-23 16:00:00');
+
+select * from users;
+
+-- Cau 3 :
+insert into products (`id`, `name` ,`description`,`category_id`, `image`,`price`,`created_at`, `updated_at` ) value
+(1,'Mỳ ý thịt bò','100% thịt bò', 1,'myybo.jpg',200000,'2022-01-23 15:00:00','2022-01-23 16:00:00'),
+(2,'Mỳ ý sốt kem','100% kem', 1,'myykem.jpg',300000,'2022-01-23 15:00:00','2022-01-23 16:00:00'),
+(3,'Mỳ ý cua','100% cua', 1,'myycua.jpg',100000,'2022-01-23 15:00:00','2022-01-23 16:00:00');
+
+-- Cau 4 :
+insert into store_products (`id`, `store_id`, `product_id`,`status`, `created_at`, `updated_at`) value
+(1, 2, 1,1,'2022-01-23 15:00:00','2022-01-23 16:00:00'),
+(2, 2, 2,2,'2022-01-23 15:00:00','2022-01-23 16:00:00'),
+(3, 2, 3,3,'2022-01-23 15:00:00','2022-01-23 16:00:00');
+
+-- Cau 5 :
+INSERT INTO `cities` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(2, 'Hà Nội','2022-01-23 15:00:00','2022-01-23 16:00:00');
+INSERT INTO `districts` (`id`, `name`, `city_id`,`created_at`, `updated_at`) VALUES
+(3, 'Hai Bà Trưng',2,'2022-01-23 15:00:00','2022-01-23 16:00:00'),
+(4, 'Thanh Xuân',2,'2022-01-23 15:00:00','2022-01-23 16:00:00');
+
+insert into `stores` (`id`, `name` ,`address`, `district_id`, `image`, `description`,`created_at`, `updated_at` ) value
+(3,'Lotteria Bà Triệu','Bà Triệu',3,'batrieu.jgp','Lotteria Bà Triệu uy tín','2022-01-23 15:00:00','2022-01-23 16:00:00'),
+(4,'Lotteria Royal city','Royal city',4,'royal.jgp','Lotteria Royal city xịn xò','2022-01-23 15:00:00','2022-01-23 16:00:00');
+
+
+select stores.id , stores.name , stores.address, districts.name as 'Quận' from districts join stores on districts.id = stores.district_id
+																				join cities on cities.id = districts.city_id where cities.name='Hà Nội';
+																			
+ -- Cau 6:
+ 
+insert into `customers` (`id`, `name`,`email`,`phone`,`address`,`birthday`,`created_at`, `updated_at` ) value
+(1,'Merritt Fernandez','MerrittFernandez@gmail.com','090990999','Hà Nội','2000-10-10','2022-01-23 15:00:00','2022-01-23 16:00:00');
+                                                                            
+ select orders.id , orders.price, orders.payment_method, orders.status , shipping_units.name , orders.created_at from orders join shipping_units on orders.id= orders.shipping_unit_id                                                
+																															join customers on orders.customer_id =customers.id where customers.name = "Merritt Fernandez";
+                                                                            
+-- Cau 7 :
+select products.id, products.name , categories.name, store_products.status from products join categories on categories.id = products.category_id
+																						join store_products on store_products.id = products.id
+                                                                                        join stores on stores.id = store_products.store_id
+                                                                                        where stores.address='Lotteria Cầu Giấy';
+-- Cau 8:
+select customers.name, customers.email, customers.phone, customers.address, customers.birthday from customers where customers.name="Merritt Fernandez";
+                                                                            
+ -- Cau 9 :
+ update customers
+ set customers.phone = 0338443113, customers.address ='Phạm Hùng, Nam Từ Liêm, Hà Nội', customers.birthday='2000-03-01'
+ where customers.id = 7;
+      
+select * from customers    ;
+select * from orders;
+-- Cau 10
+INSERT INTO `food`.`districts` (`id`, `name`, `city_id`) VALUES ('5', 'Cầu giấy', '2');
+INSERT INTO `food`.`stores` (`id`, `name`, `address`, `district_id`, `image`, `description`) VALUES ('5', 'Lotteria Cầu Giấy', 'Cầu Giấy', '5', 'caugiay.jpg', 'Cầu giấy view cực đẹp');
+INSERT INTO `food`.`promotions` (`id`, `name`, `start_date`, `end_date`, `apply_day`, `discount`) VALUES ('1', 'Thứ 2 nửa giá ', '2022-02-28', '2022-02-28', '2022-02-28', '50');
+INSERT INTO `food`.`shipping_units` (`id`, `name`, `address`, `phone`) VALUES ('3', 'Giao hành nhanh', 'Hà Nội ', '8090090900');
+INSERT INTO `food`.`categories` (`id`, `name`) VALUES ('2', 'Đồ ăn nhanh');
+INSERT INTO `food`.`products` (`id`, `name`, `description`, `category_id`, `image`, `price`) VALUES ('4', 'Gà rán ', 'Gà rán 100% gà  ', '2', 'garan.jpg', '300000');
+INSERT INTO `food`.`products` (`id`, `name`, `description`, `category_id`, `image`) VALUES ('5', 'Cơm già viên', 'Cơm gà rất ngon', '2', 'comgavien.jpg');
+INSERT INTO `food`.`products` (`id`, `name`, `description`, `category_id`, `image`) VALUES ('6', 'Pe[si', 'Nước giải khát', '2', 'pepsi.jpg');
+
+insert into `customers`(`id`, `name`,`email`,`phone`,`address`,`birthday`) value
+(2,' Josiah Cline',' JosiahCline@gmail.com','09090909','Ha Noi','2000-08-01');
+-- Cau 11 :
+
+      
+	-- Cau 12 :
+    INSERT INTO `food`.`orders` (`id`, `store_id`, `customer_id`, `promotion_id`, `shipping_unit_id`, `price`, `payment_method`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES ('1', '1', '1', '1', '1', '10000', '1', '1', '1', '2021-03-10', '2021-03-10');
+INSERT INTO `food`.`orders` (`id`, `store_id`, `customer_id`, `promotion_id`, `shipping_unit_id`, `price`, `payment_method`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES ('2', '1', '1', '1', '1', '20000', '1', '1', '1', '2021-03-12', '2021-03-10');
+
+select orders.id, orders.price, orders.status, orders.created_at from orders  inner join customers  on customers.id = orders.customer_id where customers.name = "Merritt Fernandez" and (MONTH(orders.created_at)=03);
+      
+-- Cau 13 :
+select promotions.id , promotions.name, promotions.discount from promotions where date_format(promotions.apply_day,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') order by promotions.discount desc ;
+
+-- Cau 14:
+select products.name, sum(order_details.quantity) as 'quantity1' from store_products inner join products on products.id = store_products.product_id
+inner join order_details on order_details.store_product_id = store_products.id
+inner join stores on stores.id = store_products.store_id
+where stores.name ='Lotteria Trần Duy Hưng' group by store_products.id order by quantity1 desc limit 1,1;
+
+select max( order_details.quantity) from order_details  ; 
+      
+ -- Cau 15 
+select customers.name ,count(orders.id) as'Total_Order' from orders inner join customers on customers.id = orders.customer_id
+inner join stores on stores.id= orders.store_id
+where stores.name ='Lotteria Trần Duy Hưng' group by customers.name order by Total_Order desc limit 0,3;
+
+-- 16 :
+
+select orders.id, orders.price, orders.payment_method, orders.created_at from orders inner join stores on stores.id = orders.store_id where stores.name= 'Lotteria Trần Duy Hưng' and orders.status=1;
+ 
+ -- 17 :
+ select promotions.name, count(orders.id) as'total_order' from orders inner join promotions on promotions.id = orders.promotion_id group by promotions.name ;
+       
+-- cau 18:
+
+select stores.name, sum(orders.price) as "total_price" from orders join stores on orders.store_id = stores.id where month(orders.created_at) = 1 group by orders.store_id ;
+
+-- cau 19:
+
+select date_format(orders.created_at,"%Y-%m-%d") as "order_date", orders.payment_method, sum(orders.price) as "Total_money" from orders inner join stores on orders.store_id=stores.id where stores.name ="Lotteria Cầu Giấy" group by orders.created_at , orders.payment_method;
+
+-- cau 20:
+
+select shipping_units.name, count(orders.id) as "total_order" from shipping_units inner join orders on shipping_units.id= orders.shipping_unit_id group by shipping_units.id order by total_order ASC limit 0,1;   
+      
+      
+      
