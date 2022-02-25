@@ -1,0 +1,265 @@
+create database DB_Fastfood_System;
+use  DB_Fastfood_System;
+
+create table Customers(
+Customer_id int auto_increment primary key,
+name varchar(255),
+email varchar(255),
+phone varchar(11),
+address varchar(255),
+birthday date,
+created_at timestamp default now(),
+updated_at timestamp default now() on update now()
+);
+create table categories(
+category_id int auto_increment primary key,
+name varchar(255),
+created_at timestamp default now(),
+updated_at timestamp default now() on update now()
+);
+
+
+
+create table cities(
+city_id int auto_increment primary key,
+name varchar(255),
+created_at timestamp default now(),
+updated_at timestamp default now() on update now()
+);
+create table districts(
+district_id int auto_increment primary key,
+name varchar(255),
+city_id int,
+created_at timestamp default now(),
+updated_at timestamp default now() on update now()
+);
+create table store_products(
+store_product_id int auto_increment primary key,
+store_id int,
+product_id int,
+status int,
+created_at timestamp default now(),
+updated_at timestamp default now() on update now()
+);
+create table roles(
+roles_id int auto_increment primary key,
+name varchar(255),
+created_at timestamp default now(),
+updated_at timestamp default now() on update now()
+);
+create table users(
+user_id int auto_increment primary key,
+code int(6),
+name varchar(255),
+password varchar(255),
+email varchar(255),
+phone varchar(11),
+avatar varchar(255),
+role_id int,
+store_id int,
+created_at timestamp default now(),
+updated_at timestamp default now() on update now()
+);
+create table stores(
+store_id int auto_increment primary key,
+name varchar(255),
+address varchar(255),
+district_id int,
+img varchar(255),
+description text,
+created_at timestamp default now(),
+updated_at timestamp default now() on update now()
+);
+create table products(
+product_id int auto_increment primary key,
+name varchar(255),
+description text,
+category_id int,
+image varchar(255),
+price double,
+created_at timestamp default now(),
+updated_at timestamp default now() on update now()
+);
+create table shipping_units(
+shipping_unit_id int auto_increment primary key,
+name varchar(255),
+address varchar(255),
+phone varchar(11),
+created_at timestamp default now(),
+updated_at timestamp default now() on update now()
+);
+create table promotions(
+promotion_id int auto_increment primary key,
+name varchar(255),
+start_date datetime,
+end_date datetime,
+apply_day varchar(255),
+day_id int,
+discount int,
+created_at timestamp default now(),
+updated_at timestamp default now() on update now()
+);
+create table orders(
+order_id int auto_increment primary key,
+store_id int,
+customer_id int,
+promotion_id int,
+shipping_unit_id int,
+price double,
+payment_method int,
+status int,
+payment_status int,
+created_at timestamp default now(),
+updated_at timestamp default now() on update now()
+);
+create table order_details(
+order_detail_id int auto_increment primary key,
+order_id int,
+store_product_id int,
+quantity int,
+created_at timestamp default now(),
+updated_at timestamp default now() on update now()
+);
+create table Days(
+day_id int auto_increment primary key,
+name varchar(6));
+insert into days(name) values('Sun');
+insert into days(name) values('Mon');
+insert into days(name) values('Tue');
+insert into days(name) values('Wed');
+insert into days(name) values('thur');
+insert into days(name) values('fri');
+insert into days(name) values('sat');
+
+insert into cities(name) values('Hà Nội');
+insert into districts(name,city_id) values('Hai Bà Trưng',2);
+insert into districts(name,city_id) values('Thanh Xuân',2);
+insert into stores(name,district_id) values('Lotteria Lê Chân 2',1);
+insert into stores(name,district_id,address) values('Lotteria Bà Triệu',3,'Bà Triệu');
+insert into stores(name,district_id,address) values('Lotteria Royal city',4,'Royal city');
+
+insert into shipping_units(name) values('Giao hàng nhanh');
+insert into shipping_units(name) values('Giao hàng tiết kiệm');
+select * from shipping_units;
+insert into customers(name) values('Meritt Fernandez');
+ insert into orders(customer_id,shipping_unit_id,price,payment_method,status) 
+values(1,3,70620,1,2);
+insert into orders(customer_id,shipping_unit_id,price,payment_method,status) 
+values(1,4,95110,2,2);
+
+insert into districts(name,city_id) values('Cầu Giấy',2);
+insert into stores(name,district_id,address) values('Lotteria Cầu Giấy',5,'Cầu Giấy');
+
+insert into categories(name) values('Burger');
+insert into categories(name) values('Gà');
+
+insert into products(name,description,category_id,image,price)
+values('Burger bulgogi','Burger số 1',2,'Burgerso1.jpg',100000);
+
+insert into products(name,description,category_id,image,price)
+values('Burger tôm','Burger số 2',2,'Burgerso1.jpg',90000);
+
+insert into products(name,description,category_id,image,price)
+values('Burger bò','Burger số 3',2,'Burgerso1.jpg',80000);
+
+insert into products(name,description,category_id,image,price)
+values('Gà rán','Gà ngon số 1',3,'Ga1.jpg',140000);
+
+insert into products(name,description,category_id,image,price)
+values('Gà rán','Gà ngon số 2 ',3,'Ga2.jpg',180000);
+
+insert into store_products(store_id,product_id,status)
+values(6,1,1);
+insert into store_products(store_id,product_id,status)
+values(6,2,0);
+insert into store_products(store_id,product_id,status)
+values(6,3,1);
+insert into store_products(store_id,product_id,status)
+values(6,7,1);
+insert into store_products(store_id,product_id,status)
+values(6,8,1);
+insert into customers(name,email,phone,address,birthday)
+values('Josiah Cline','mauris@yahoo.com','8661930889','8466 Aliquet Ave','2020-12-29');
+insert into customers(name,email,phone,address,birthday)
+values('Khuất Anh','Anh@yahoo.com','66666930889','Vĩnh Phúc','2000-10-20');
+insert into customers(name,email,phone,address,birthday)
+values('Kiều Sơn','Son@yahoo.com','5678930889','Vĩnh Phúc','2020-9-9');
+insert into customers(name,email,phone,address,birthday)
+values('Kiều Huy','Huy@yahoo.com','8761930889','Hà Nội','2020-10-18');
+insert into customers(name,email,phone,address,birthday)
+values('Kiêu Thúy','Thuy@yahoo.com','6578445678','Hải Phòng','2000-12-29');
+insert into customers(name,email,phone,address,birthday)
+values('Lưu Viết trung','Trung@yahoo.com','76778999999','Yên Bái','2000-12-25');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(6,1,744100,1,1,'2021-03-05 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(6,1,731720,1,3,'2021-03-05 12:00:00');
+insert into districts(name,city_id) values('Trần Duy Hưng',2);
+insert into stores(name,district_id,address) values('Lotteria Trần Duy Hưng',6,'Trần Duy Hưng');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(7,1,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(7,2,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(7,3,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(7,1,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(7,3,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(7,3,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(7,3,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(7,4,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(7,5,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(7,7,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(7,6,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(7,6,100000,1,1,'2022-02-25 12:00:00');
+
+insert into store_products(store_id,product_id,status)
+values(7,1,1);
+insert into store_products(store_id,product_id,status)
+values(7,2,0);
+insert into store_products(store_id,product_id,status)
+values(7,3,1);
+insert into store_products(store_id,product_id,status)
+values(7,7,1);
+insert into store_products(store_id,product_id,status)
+values(7,8,1);
+insert into store_products(store_id,product_id,status)
+values(7,4,1);
+insert into store_products(store_id,product_id,status)
+values(7,5,1);
+insert into orders(store_id,customer_id,promotion_id,price,payment_method,status,created_at)
+values(6,1,1,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,promotion_id,price,payment_method,status,created_at)
+values(6,2,3,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,promotion_id,price,payment_method,status,created_at)
+values(6,3,3,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,promotion_id,price,payment_method,status,created_at)
+values(6,1,4,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,promotion_id,price,payment_method,status,created_at)
+values(6,3,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(6,3,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(6,3,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,price,payment_method,status,created_at)
+values(6,4,1,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,promotion_id,price,payment_method,status,created_at)
+values(6,5,3,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,promotion_id,price,payment_method,status,created_at)
+values(6,7,1,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,promotion_id,price,payment_method,status,created_at)
+values(6,6,3,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,promotion_id,price,payment_method,status,created_at)
+values(6,6,4,100000,1,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,promotion_id,price,payment_method,status,created_at)
+values(6,6,3,100000,2,1,'2022-02-25 12:00:00');
+insert into orders(store_id,customer_id,promotion_id,price,payment_method,status,created_at)
+values(6,6,4,100000,2,1,'2022-02-25 12:00:00');
