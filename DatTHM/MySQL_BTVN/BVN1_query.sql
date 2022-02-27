@@ -48,28 +48,21 @@ inner join products on products.id = store_products.product_id
 inner join stores on stores.id = store_products.store_id 
 where stores.id= 6  
 group by  order_details.store_product_id order by quantity desc limit 1,1;
-# 15. liệt kê 3 khách hàng đặt hàng nhiều ở cửa hàng lotte cầu giấy theo số lượng đơn đặt hàng giảm dần   ??????
-SELECT customers.name, 
-(SELECT SUM(order_details.quantity) AS total_order 
-FROM order_details inner join orders on order_details.order_id = orders.id group by order_details.order_id) 
-FROM orders join stores join order_details join customers on orders.customer_id = customers.id
-WHERE stores.name = 'Lotteria Cầu Giấy'
-having count(customers.name) = 3
-order by order_details.quantity desc;
-
-SELECT customers.name, SUM(order_details.quantity) AS total_order 
-FROM orders 
-inner join customers on orders.customer_id = customers.id;
-
+# 15. liệt kê 3 khách hàng đặt hàng nhiều ở cửa hàng lotte cầu giấy theo số lượng đơn đặt hàng giảm dần 
+select orders.customer_id, customers.name, sum(order_details.quantity) as quantity from order_details
+inner join orders on orders.id = order_details.order_id
+inner join customers on customers.id = orders.customer_id
+where orders.store_id = 5
+group by orders.customer_id order by sum(order_details.quantity) desc limit 3;
 # 16. liệt kê những đơn hàng cửa hàng lotteria cầu giấy đang ở trạng thái chưa thanh toán
 SELECT orders.id, orders.price, orders.payment_method, orders.created_at 
 FROM orders JOIN stores
 WHERE stores.name = 'Lotteria Cầu Giấy' 
 AND stores.id = orders.store_id AND orders.status = 1;
-# 17. liệt kê tất cả những mã giảm giá có trong hệ thống kèm theo số lượng mã đã áp dụng    ??????????????
-SELECT promotions.name, 
-(SELECT count(orders.promotion_id) AS total_price FROM promotions INNER JOIN orders ON promotions.id = orders.promotion_id group by promotions.name) 
-FROM promotions inner JOIN orders ON promotions.id = orders.promotion_id group by promotions.name;
+# 17. liệt kê tất cả những mã giảm giá có trong hệ thống kèm theo số lượng mã đã áp dụng   
+select orders.promotion_id, promotions.name, count(orders.promotion_id) as total_order from orders
+inner join promotions on orders.promotion_id = promotions.id
+group by orders.promotion_id;
 # 18. liệt kê 3 cửa hàng có doanh thu trong tháng 1 lớn hơn 100000
 SELECT stores.name, SUM(orders.price) AS 'total_price' 
 FROM stores inner join orders ON stores.id = orders.store_id
@@ -79,8 +72,37 @@ having SUM(orders.price) > 100000;
 SELECT date(orders.created_at) as 'order_date', orders.payment_method, sum(orders.price) as 'total_price'
 FROM orders inner join stores on orders.store_id = stores.id
 WHERE stores.name = 'Lotteria Cầu Giấy' group by orders.created_at, orders.payment_method;
-# 20. tìm đơn vị vận chuyển đã vận chuyển được ít đơn hàng nhất và số lượng đơn hàng đó đã vận chuyển   ?????????????
-SELECT shipping_units.name, sum(order_details.quantity) as 'total_order'
-FROM shipping_units join orders JOIN order_details
-on (orders.shipping_unit_id = shipping_units.id and orders.id = order_details.order_id)
-WHERE min(sum(order_details.quantity));
+# 20. tìm đơn vị vận chuyển đã vận chuyển được ít đơn hàng nhất và số lượng đơn hàng đó đã vận chuyển 
+select orders.shipping_unit_id, shipping_units.name, sum(order_details.quantity) as quantity 
+from orders inner join order_details on order_details.order_id = orders.id
+inner join shipping_units on orders.shipping_unit_id = shipping_units.id
+group by orders.shipping_unit_id order by sum(order_details.quantity) asc limit 1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -83,14 +83,17 @@ WHERE year(NGAYDAT) in ('2016', '2017');
 # 8. Hiển thị MaDatPhong, MaPhong, LoaiPhong, GiaPhong, TenKH, NgayDat, TongTienHat, TongTienSuDungDichVu, TongTienThanhToan 
 #	tương ứng với từng mã đặt phòng có trong bảng DAT_PHONG. Những đơn đặt phòng nào không sử dụng dịch vụ đi kèm thì 
 #    cũng liệt kê thông tin của đơn đặt phòng đó ra. (1 điểm)
+ 
 
 
 # 9. Hiển thị MaKH, TenKH, DiaChi, SoDT của những khách hàng đã từng đặt phòng karaoke có địa chỉ ở “Hoa xuan”. (1 điểm)
-
-
+SELECT * FROM khach_hang WHERE DIACHI = 'HOA XUAN';
 # 10. Hiển thị MaPhong, LoaiPhong, SoKhachToiDa, GiaPhong, SoLanDat của những phòng được khách hàng đặt có số lần đặt lớn hơn 2 lần và 
 #	trạng thái đặt là “Da dat”. (1 điểm)
-
+SELECT phong.MAPHONG, phong.LOAIPHONG, phong.SOKHACHTOIDA, phong.GIAPHONG, chi_tiet_su_dung_dv.SOLUONG 
+FROM dat_phong inner join chi_tiet_su_dung_dv on chi_tiet_su_dung_dv.MADATPHONG = dat_phong.MADATPHONG
+inner join phong on dat_phong.MAPHONG = phong.MAPHONG
+WHERE chi_tiet_su_dung_dv.SOLUONG > 2 AND dat_phong.TRANGTHAIDAT = 'DA DAT';
 
 
 
