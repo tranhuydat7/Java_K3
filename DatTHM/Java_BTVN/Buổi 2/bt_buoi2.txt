@@ -1,0 +1,28 @@
+1. Nguyên tắc ép kiểu dữ liệu trong kiểu dữ liệu có cấu trúc. Có vấn đề gì khi ép kiểu dữ liệu giữa các kiểu dữ liệu con không
+- ép kiểu dữ liệu có cấu trúc thì chỉ nằm trong mối quan hệ kế thừa, trong mối quan hệ kế thừa thì đồng cấp k ép kiểu được
+- Vấn đề ép kiểu giữa các kiểu dữ liệu con
+
+2. Bản chất của String là gì?
+- String là một đối tượng, một mảng các kí tự
+- String bất biến => không tự thay đổi giá trị của bản thân nó
+- thông qua method trong string tạo ra 1 string khác
+- sử dụng string thường bị tràn bộ nhớ, vì nếu cứ gán lại string thì sẽ tạo ra ô nhớ mới trong bộ nhớ, và dần dần thì ô nhớ sẽ hết đi mà chương trình chưa chạy hết sẽ đúng như cơ chế dọn rác(dùng thì tạo ô nhớ, còn k dùng nữa thì dọn ô nhớ đó)
+nên dẫn đến đầy bộ nhớ
+
+3. Tìm hiểu sự khác nhau giửa String pool và String Heap
+- String pool: là vùng nhớ nằm trong Heap, lưu trữ các biến khai báo kiểu String, lưu vào ô nhớ trong String pool, nếu tạo ra 2 string có giá trị giống nhau thì chỉ tạo ra
+một ô nhớ bên string pool.
+	vd: String str1 = "dongpt";
+		String str2 = "dongpt";
+	str1 và str2 lưu ở stack thì khác ô nhau, còn "dongpt" thì chỉ lưu ở 1 ô trong string pool
+- String heap: lưu những giá trị của đối tượng new mới vào ô nhớ string heap mà được tạo theo kiểu String, còn biến thì lưu bên stack và tham chiếu sang bên string heap
+Mỗi lần new mới 1 String thì 1 ô nhớ bên string heap được tạo ra khác địa chỉ nhau
+
+4 So cánh duyệt phần tử bằng for và while (trường hợp nào thì nên sử dụng)
+- for: lặp với số lần biết cụ thể, sử dụng khi biết số lần lặp
+- while: lặp với điều kiện cho đúng, sử dụng khi không biết số lần lặp
+
+5 So sánh foreach và for
+- for: duyệt theo index, thực thi nhiều lần theo điều kiện, truy xuất 1 phần tử cụ thể
+- foreach: duyệt không xác định thứ tự. duyệt các mục trong mảng hay  tập hợp
+6.
